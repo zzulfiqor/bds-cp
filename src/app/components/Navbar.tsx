@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { useState } from "react";
+import Image from "next/image";
+import { useState, ReactNode } from "react";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import MapIcon from "@mui/icons-material/Map";
@@ -7,26 +8,11 @@ import MailIcon from "@mui/icons-material/Mail";
 
 export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
   const navs = [
-    {
-      title: "About Us",
-      path: "/about",
-    },
-    {
-      title: "Dive School",
-      path: "/dive-school",
-    },
-    {
-      title: "Dive Tour",
-      path: "/dive-tour",
-    },
-    {
-      title: "Diving Spot",
-      path: "/dive-spot",
-    },
-    {
-      title: "Gallery",
-      path: "/gallery",
-    },
+    { title: "About Us", path: "/about" },
+    { title: "Dive School", path: "/dive-school" },
+    { title: "Dive Tour", path: "/dive-tour" },
+    { title: "Diving Spot", path: "/dive-spot" },
+    { title: "Gallery", path: "/gallery" },
   ];
 
   const [hamburgerHovered, setHamburgerHovered] = useState(false);
@@ -38,15 +24,11 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
       <SideNavBar
         showSideNavBar={showSideNavBar}
         navs={navs}
-        setShowSideNavBar={(navState) => {
-          setShowSideNavBar(navState);
-        }}
+        setShowSideNavBar={setShowSideNavBar}
       />
-      {/* end of Side Nav Bar */}
 
       {/* Bottom Bar */}
       <BottomBar showSideNavBar={showSideNavBar} />
-      {/* end of Bottom Bar */}
 
       <div
         className={`z-10 sticky w-full bg-primaryDark mx-auto my-auto py-4 px-4 md:py-4 ${
@@ -58,12 +40,11 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
             {/* Hamburger Menu */}
             <div className="block md:hidden">
               <button
-                onClick={() => {
-                  setShowSideNavBar(!showSideNavBar);
-                }}
+                onClick={() => setShowSideNavBar(!showSideNavBar)}
                 onMouseEnter={() => setHamburgerHovered(true)}
                 onMouseLeave={() => setHamburgerHovered(false)}
                 className="focus:outline-none"
+                aria-label="Toggle navigation menu"
               >
                 <svg
                   className="w-8 h-8 text-white hover:text-secondary"
@@ -82,34 +63,36 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
                 </svg>
               </button>
             </div>
-            {/* end of Hamburger */}
 
             {/* Logo Image */}
             <div className="w-full flex justify-center md:justify-between">
-              <Link href="/">
-                <img
-                  src="/logo-white.png"
-                  alt="logo"
-                  className="transition-all ease-in-out duration-300 h-[45px] md:h-[50px] w-auto bg-cover hover:filter hover:drop-shadow-[0_2px_3px_primary]"
-                />
+              <Link href="/" legacyBehavior>
+                <a>
+                  <Image
+                    src="/logo-white.png"
+                    alt="logo"
+                    width={200} // sesuaikan ukuran
+                    height={50} // sesuaikan ukuran
+                    className="transition-all ease-in-out duration-300 h-[45px] md:h-[50px] w-auto bg-cover hover:filter hover:drop-shadow-[0_2px_3px_primary]"
+                  />
+                </a>
               </Link>
             </div>
-            {/* end of Image */}
 
             {/* Nav Items */}
             <div className="hidden md:block">
               <ul className="flex space-x-1">
-                {/* Navs */}
                 {navs.map((nav, index) => (
                   <li key={index}>
-                    <Link href={nav.path}>
-                      <NavItem title={nav.title} path={nav.path} centerText />
+                    <Link href={nav.path} legacyBehavior>
+                      <a>
+                        <NavItem title={nav.title} centerText />
+                      </a>
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
-            {/* end of Nav Items */}
           </nav>
         </div>
       </div>
@@ -118,7 +101,6 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
 }
 
 function BottomBar({ showSideNavBar }: { showSideNavBar: boolean }) {
-  // stick on bottom and only show on mobile
   return (
     <div className="block md:hidden w-full">
       <div
@@ -132,12 +114,12 @@ function BottomBar({ showSideNavBar }: { showSideNavBar: boolean }) {
               <BottomNavItem
                 title="Whatsapp"
                 icon={<WhatsAppIcon fontSize="large" />}
-                onClick={() => {
+                onClick={() =>
                   window.open(
                     "https://wa.me/6281979778878?text=Hello%20BDS%2C%20I%20would%20like%20to%20inquire%20about%20the%20packages%20you%20offer.",
                     "_blank"
-                  );
-                }}
+                  )
+                }
               />
 
               <BottomNavItem
@@ -160,12 +142,12 @@ function BottomBar({ showSideNavBar }: { showSideNavBar: boolean }) {
               <BottomNavItem
                 title="Location"
                 icon={<MapIcon fontSize="large" />}
-                onClick={() => {
+                onClick={() =>
                   window.open(
                     "https://www.google.com/maps/place/Banyuwangi+Dive+School/@-8.0553465,114.4301391,17z/data=!3m1!4b1!4m6!3m5!1s0x2dd13f001b61576b:0xeb557bcf1efad7c0!8m2!3d-8.0553465!4d114.4301391!16s%2Fg%2F11lmkc1g7y?entry=ttu&g_ep=EgoyMDI1MDEwOC4wIKXMDSoASAFQAw%3D%3D",
                     "_blank"
-                  );
-                }}
+                  )
+                }
               />
             </div>
           </nav>
@@ -187,30 +169,31 @@ function SideNavBar({
   return (
     <>
       <div
-        className={`fixed z-10 top-0 left-0 h-full w-full bg-primaryDark bg-opacity-45  ${
+        className={`fixed z-10 top-0 left-0 h-full w-full bg-primaryDark bg-opacity-45 ${
           showSideNavBar ? "translate-x-0" : "translate-x-[-100%]"
-        } transition-all ease-in-out duration-200 block md:hidden `}
+        } transition-all ease-in-out duration-200 block md:hidden`}
         onClick={() => setShowSideNavBar(false)}
+        aria-hidden="true"
       ></div>
       <div
         className={`fixed z-20 top-0 left-0 h-full w-3/4 bg-primaryDark ${
           showSideNavBar ? "translate-x-0" : "translate-x-[-100%]"
         } transition-all ease-in-out duration-450 block md:hidden`}
       >
-        {/* Side Nav Bar Content */}
         <ul className="flex flex-col p-4">
           <li>
             <div className="flex justify-between items-center mb-6">
-              {/* logo */}
-              <img
+              <Image
                 src="/logo-white.png"
                 alt="logo"
+                width={160}
+                height={40}
                 className="h-[40px] w-auto bg-cover mt-2 mx-3"
               />
-              {/* close button */}
               <button
                 onClick={() => setShowSideNavBar(false)}
                 className="focus:outline-none px-4"
+                aria-label="Close navigation menu"
               >
                 <svg
                   className="w-5 h-5 text-white hover:text-secondary"
@@ -231,8 +214,10 @@ function SideNavBar({
           </li>
           {navs.map((nav, index) => (
             <li key={index}>
-              <Link href={nav.path}>
-                <NavItem title={nav.title} path={nav.path} />
+              <Link href={nav.path} legacyBehavior>
+                <a onClick={() => setShowSideNavBar(false)}>
+                  <NavItem title={nav.title} />
+                </a>
               </Link>
             </li>
           ))}
@@ -244,47 +229,37 @@ function SideNavBar({
 
 function NavItem({
   title,
-  path,
   centerText,
 }: {
   title: string;
-  path: string;
   centerText?: boolean;
 }) {
   return (
-    <>
-      <div
-        className={`py-3 px-4 w-[140px] ${centerText ? "text-center" : ""} `}
-      >
-        <p className="transition-all ease-in-out duration-250 text-white-600 text-white text-lg font-bold hover:text-secondary hover:text-secondary">
-          {title}
-        </p>
-      </div>
-    </>
+    <div className={`py-3 px-4 w-[140px] ${centerText ? "text-center" : ""}`}>
+      <p className="transition-all ease-in-out duration-250 text-white text-lg font-bold hover:text-secondary">
+        {title}
+      </p>
+    </div>
   );
 }
 
-function BottomNavItem({
-  title,
-  icon,
-  onClick,
-}: {
+interface BottomNavItemProps {
   title: string;
-  icon: any;
-  onClick: any;
-}) {
+  icon: ReactNode;
+  onClick: () => void;
+}
+
+function BottomNavItem({ title, icon, onClick }: BottomNavItemProps) {
   return (
-    <>
-      <Link
-        href=""
-        onClick={onClick}
-        className="transition-all ease-in-out duration-250 text-white-600 text-white text-xs font-bold hover:text-secondary hover:text-secondary mt-2"
-      >
-        <div className="py-0 px-4 flex flex-col items-center">
-          {icon}
-          {title}
-        </div>
-      </Link>
-    </>
+    <button
+      onClick={onClick}
+      className="transition-all ease-in-out duration-250 text-white text-xs font-bold hover:text-secondary mt-2 focus:outline-none"
+      aria-label={title}
+    >
+      <div className="py-0 px-4 flex flex-col items-center">
+        {icon}
+        {title}
+      </div>
+    </button>
   );
 }
