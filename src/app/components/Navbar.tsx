@@ -17,6 +17,11 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
 
   const [hamburgerHovered, setHamburgerHovered] = useState(false);
   const [showSideNavBar, setShowSideNavBar] = useState(false);
+  const logoClasses = [
+    "transition-all ease-in-out duration-300",
+    "h-[45px] md:h-[50px] w-auto bg-cover",
+    "hover:filter hover:drop-shadow-[0_2px_3px_primary]",
+  ].join(" ");
 
   return (
     <>
@@ -73,7 +78,7 @@ export default function Navbar({ isScrolled }: { isScrolled: boolean }) {
                     alt="logo"
                     width={200} // sesuaikan ukuran
                     height={50} // sesuaikan ukuran
-                    className="transition-all ease-in-out duration-300 h-[45px] md:h-[50px] w-auto bg-cover hover:filter hover:drop-shadow-[0_2px_3px_primary]"
+                    className={logoClasses}
                   />
                 </a>
               </Link>

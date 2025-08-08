@@ -28,7 +28,7 @@ export default function BasePage({ children }: { children: React.ReactNode }) {
     return (
         <div>
             <Navbar isScrolled={scrolled} />
-            
+
             <div className="body bg-blue h-auto">
                 {children}
             </div>
