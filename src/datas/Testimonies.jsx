@@ -1,4 +1,4 @@
-export default  testimonies = [
+const testimonies = [
   {
     id: 1,
     name: "Ruby Englishe",
@@ -14,3 +14,5 @@ export default  testimonies = [
       "I had the opportunity to meet people who have become my friends. I have learned a lot about business and I have made great contacts.",
   },
 ];
+
+export default testimonies;
